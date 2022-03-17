@@ -244,7 +244,7 @@ void query1(connection * C,
   for (int i = 0; i < 2; i++) {
     if (enable[4 + i] != 0) {
       if (en_flag == 0) {
-        sql << "WHERE ";
+        sql << " WHERE ";
       }
       if (en_flag != 0) {
         sql << " AND ";
@@ -299,7 +299,7 @@ void query3(connection * C, string team_name) {
 
 void query4(connection * C, string state_name, string uniform_color) {
   stringstream sql;
-  sql << "SELECT FIRST_NAME, LAST_NAME, UNIFORM_NUM FROM PLAYER, STATE, COLOR, TEAM "
+  sql << "SELECT UNIFORM_NUM, FIRST_NAME, LAST_NAME FROM PLAYER, STATE, COLOR, TEAM "
          "WHERE ";
   sql << "PLAYER.TEAM_ID = TEAM.TEAM_ID AND TEAM.COLOR_ID = COLOR.COLOR_ID AND "
          "TEAM.STATE_ID = STATE.STATE_ID AND ";
@@ -308,9 +308,9 @@ void query4(connection * C, string state_name, string uniform_color) {
 
   nontransaction N(*C);
   result R(N.exec(sql.str()));
-  cout << "FIRST_NAME LAST_NAME UNIFORM_NUM" << endl;
+  cout << "UNIFORM_NUM FIRST_NAME LAST_NAME" << endl;
   for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
-    cout << c[0].as<string>() << " " << c[1].as<string>() << " " << c[2].as<int>()
+    cout << c[0].as<int>() << " " << c[1].as<string>() << " " << c[2].as<string>()
          << endl;
   }
 }
